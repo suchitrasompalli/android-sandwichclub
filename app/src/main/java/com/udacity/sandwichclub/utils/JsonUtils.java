@@ -16,14 +16,22 @@ import java.util.ListIterator;
 
 public class JsonUtils {
 
+    public static final String JSON_NAME_KEY = "name";
+    public static final String JSON_MAIN_NAME_KEY = "mainName";
+    public static final String JSON_ALSO_KNOWN_AS_KEY = "alsoKnownAs";
+    public static final String JSON_PLACE_OF_ORIGIN_KEY = "placeOfOrigin";
+    public static final String JSON_DESCRIPTION_KEY = "description";
+    public static final String JSON_IMAGE_KEY = "image";
+    public static final String JSON_INGREDIENTS_KEY = "ingredients";
+
     public static Sandwich parseSandwichJson(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
             Sandwich sandwich = new Sandwich();
-            sandwich.setMainName(jsonObject.getJSONObject("name").getString("mainName"));
+            sandwich.setMainName(jsonObject.optJSONObject(JSON_NAME_KEY ).optString(JSON_MAIN_NAME_KEY));
 
             List<String> list = new ArrayList<String>();
-            JSONArray jsonArray = jsonObject.getJSONObject("name").getJSONArray("alsoKnownAs");
+            JSONArray jsonArray = jsonObject.optJSONObject(JSON_NAME_KEY ).optJSONArray(JSON_ALSO_KNOWN_AS_KEY);
             if (jsonArray != null) {
                 int len = jsonArray.length();
                 for (int i=0; i<len; i++){
@@ -31,11 +39,11 @@ public class JsonUtils {
                 }
             }
             sandwich.setAlsoKnownAs(list);
-            sandwich.setPlaceOfOrigin(jsonObject.getString("placeOfOrigin"));
-            sandwich.setDescription(jsonObject.getString("description"));
-            sandwich.setImage(jsonObject.getString("image"));
+            sandwich.setPlaceOfOrigin(jsonObject.optString(JSON_PLACE_OF_ORIGIN_KEY));
+            sandwich.setDescription(jsonObject.optString(JSON_DESCRIPTION_KEY));
+            sandwich.setImage(jsonObject.optString(JSON_IMAGE_KEY));
             list = new ArrayList<String>();
-            jsonArray = jsonObject.getJSONArray("ingredients");
+            jsonArray = jsonObject.optJSONArray(JSON_INGREDIENTS_KEY);
             if (jsonArray != null) {
                 int len = jsonArray.length();
                 for (int i=0; i<len; i++){

@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TextTheme" parent="android:Theme">
+        <item name="android:textViewStyle">@style/smallTextView</item>
+    </style>
+
+    <style name="smallTextView" parent="android:Widget.TextView">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">normal</item>
+    </style>
+
+
 </resources>

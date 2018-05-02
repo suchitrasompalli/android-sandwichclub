@@ -3,6 +3,7 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,27 +14,34 @@ import com.udacity.sandwichclub.utils.JsonUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
 
-    //private static TextView sandwich_name = null;
-    private static TextView origin_tv = null;
-    private static TextView description_tv = null;
-    private static TextView ingredients_tv = null;
-    private static TextView also_known_tv = null;
+    @BindView(R.id.image_iv)
+    ImageView image_iv;
+
+    @BindView(R.id.origin_tv)
+    TextView origin_tv;
+
+    @BindView(R.id.description_tv)
+    TextView description_tv;
+
+    @BindView(R.id.ingredients_tv)
+    TextView ingredients_tv;
+
+    @BindView(R.id.also_known_tv)
+    TextView also_known_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        ImageView image_iv = findViewById(R.id.image_iv);
-        origin_tv = findViewById(R.id.origin_tv);
-        description_tv = findViewById(R.id.description_tv);
-        ingredients_tv = findViewById(R.id.ingredients_tv);
-        also_known_tv = findViewById(R.id.also_known_tv);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -59,6 +67,8 @@ public class DetailActivity extends AppCompatActivity {
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .placeholder(R.drawable.ic_launcher)
+                .error(R.drawable.ic_launcher)
                 .into(image_iv);
 
         setTitle(sandwich.getMainName());
@@ -70,14 +80,14 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
-        //sandwich_name.setText(sandwich.getMainName());
-        this.origin_tv.setText(sandwich.getPlaceOfOrigin());
 
-        this.description_tv.setText(sandwich.getDescription());
+        origin_tv.setText(sandwich.getPlaceOfOrigin());
+
+        description_tv.setText(sandwich.getDescription());
 
         List<String> list = sandwich.getAlsoKnownAs();
         for(String name: list) {
-            also_known_tv.append(name + ", ");
+            also_known_tv.setText(TextUtils.join(", ", sandwich.getAlsoKnownAs()));
         }
 
         list = sandwich.getIngredients();
