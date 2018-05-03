@@ -82,18 +82,9 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUI(Sandwich sandwich) {
 
         origin_tv.setText(sandwich.getPlaceOfOrigin());
-
         description_tv.setText(sandwich.getDescription());
 
-        List<String> list = sandwich.getAlsoKnownAs();
-        for(String name: list) {
-            also_known_tv.setText(TextUtils.join(", ", sandwich.getAlsoKnownAs()));
-        }
-
-        list = sandwich.getIngredients();
-        for(String name: list) {
-            ingredients_tv.append(name + "\n");
-        }
-
+        also_known_tv.setText(TextUtils.join(", ", sandwich.getAlsoKnownAs()));
+        ingredients_tv.append(TextUtils.join("\n", sandwich.getIngredients()));
     }
 }
